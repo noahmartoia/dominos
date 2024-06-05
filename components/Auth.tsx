@@ -3,8 +3,6 @@ import { Alert, StyleSheet, View, AppState } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { Button, Input } from '@rneui/themed'
 
-
-
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
 // `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event
@@ -19,7 +17,6 @@ AppState.addEventListener('change', (state) => {
 
 export default function Auth() {
   const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -27,7 +24,6 @@ export default function Auth() {
     setLoading(true)
     const { error } = await supabase.auth.signInWithPassword({
       email: email,
-      username: username,
       password: password,
     })
 
@@ -42,7 +38,6 @@ export default function Auth() {
       error,
     } = await supabase.auth.signUp({
       email: email,
-      username: username,
       password: password,
     })
 
@@ -61,15 +56,6 @@ export default function Auth() {
           value={email}
           placeholder="email@address.com"
           autoCapitalize={'none'}
-        />
-      </View>
-      <View style={styles.verticallySpaced}>
-        <Input 
-        label="Username"
-        leftIcon={{ type: 'font-awesome', name: 'user' }}
-        value={username || ''} 
-        onChangeText={(text) => setUsername(text)} 
-        placeholder="pseudo"
         />
       </View>
       <View style={styles.verticallySpaced}>
